@@ -6,7 +6,7 @@
 |--------------------|---------------------|---------------------------|
 | nickname           | string              | null: false               |
 | email              | string              | null: false, unique: true |
-| password           | string              | null: false               |
+| encrypted_password | string              | null: false               |
 | family_name        | string              | null: false               |
 | first_name         | string              | null: false               |
 | kana_family_name   | string              | null: false               |
@@ -36,11 +36,11 @@
 ### Association
 
 - belongs_to :user
-- belongs_to :category_id
-- belongs_to :condition_id
-- belongs_to :delivery_fee_id
-- belongs_to :prefecture_id
-- belongs_to :delivery_days_id
+- belongs_to :category
+- belongs_to :condition
+- belongs_to :delivery_fee
+- belongs_to :prefecture
+- belongs_to :delivery_days
 - has_one :order
 
 
@@ -73,4 +73,4 @@
 ### Association
 
 - belongs_to :order
-- belongs_to :prefecture_id
+- belongs_to :prefecture
