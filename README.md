@@ -5,13 +5,13 @@
 | Column             | Type                | Options                   |
 |--------------------|---------------------|---------------------------|
 | nickname           | string              | null: false               |
-| email              | string              | null: false, unique: true |
-| encrypted_password | string              | null: false               |
+| email              | string              | primary_key               |
+| password           | string              | null: false               |
 | family_name        | string              | null: false               |
 | first_name         | string              | null: false               |
-| kana_family_name   | string              | null: false               |
-| kana_first_name    | string              | null: false               |
-| birth_day          | date                | null: false               |
+| family_name_kana   | string              | null: false               |
+| first_name_kana    | string              | null: false               |
+| birthday           | date                | null: false               |
 
 ### Association
 
@@ -24,23 +24,19 @@
 | Column               | Type        | Options                        |
 |----------------------|-------------|--------------------------------|
 | name                 | string      | null: false                    |
-| information          | text        | null: false                    |
+| image                | string      | null: false                    |
+| explanation          | text        | null: false                    |
 | category_id          | integer     | null: false                    |
-| condition_id         | integer     | null: false                    |
-| delivery_fee_id      | integer     | null: false                    |
+| status_id            | integer     | null: false                    |
+| postage_id           | integer     | null: false                    |
 | prefecture_id        | integer     | null: false                    |
-| delivery_days_id     | integer     | null: false                    |
+| shipping_day_id      | integer     | null: false                    |
 | price                | integer     | null: false                    |
-| user                 | references  | null: false, foreign_key: true |
+| user_id              | references  | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
-- belongs_to :category
-- belongs_to :condition
-- belongs_to :delivery_fee
-- belongs_to :prefecture
-- belongs_to :delivery_days
 - has_one :order
 
 
@@ -48,29 +44,28 @@
 
 | Column      | Type       | Options                        |
 |-------------|------------|--------------------------------|
-| user        | references | null: false, foreign_key: true |
-| item        | references | null: false, foreign_key: true |
+| user_id     | integer    | null: false, foreign_key: true |
+| item_id     | integer    | null: false, foreign_key: true |
 
 ### Association
 
 - belongs_to :user
 - belongs_to :item
-- has_one :address
+- has_one :delivery
 
 
 ## addresses table
 
-| Column             | Type                | Options                         |
-|--------------------|---------------------|---------------------------------|
-| postal_code        | string              | null: false                     |
-| prefecture_id      | integer             | null: false                     |
-| city               | string              | null: false                     |
-| address            | string              | null: false                     |
-| building_name      | string              |                                 |
-| phone_number       | string              | null: false                     |
-| order              | references          | null: false, foreign_key: true  |
+| Column          | Type             | Options                         |
+|-----------------|------------------|---------------------------------|
+| postal_code     | string           | null: false                     |
+| prefectures     | integer          | null: false                     |
+| city            | string           | null: false                     |
+| house_number    | string           | null: false                     |
+| build_number    | string           |                                 |
+| phone_number    | string           | null: false                     |
+| orders_id       | integer          | null: false, foreign_key: true  |
 
 ### Association
 
 - belongs_to :order
-- belongs_to :prefecture
