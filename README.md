@@ -54,7 +54,7 @@
 - has_one :delivery
 
 
-## addresses table
+## deliveries table
 
 | Column          | Type             | Options                         |
 |-----------------|------------------|---------------------------------|
