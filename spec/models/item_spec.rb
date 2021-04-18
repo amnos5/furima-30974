@@ -40,32 +40,32 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include('Explanation is too long (maximum is 1000 characters)')
       end
-      it 'categoryが未選択だと出品できない' do
-        @item.category = nil
+      it 'categoryが1だと出品できない' do
+        @item.category_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Category can't be blank")
+        expect(@item.errors.full_messages).to include("Category must be other than 1")
       end
-      it 'statusが未選択だと出品できない' do
-        @item.status = nil
+      it 'statusが1だと出品できない' do
+        @item.status_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Status can't be blank")
+        expect(@item.errors.full_messages).to include("Status must be other than 1")
       end
-      it 'postageが未選択だと出品できない' do
-        @item.postage = nil
+      it 'postageが1だと出品できない' do
+        @item.postage_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Postage can't be blank")
+        expect(@item.errors.full_messages).to include("Postage must be other than 1")
       end
-      it 'prefectureが未選択だと出品できない' do
-        @item.prefecture = nil
+      it 'prefectureが1だと出品できない' do
+        @item.prefecture_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Prefecture can't be blank")
+        expect(@item.errors.full_messages).to include("Prefecture must be other than 1")
       end
-      it 'shipping_dayが未選択だと出品できない' do
-        @item.shipping_day = nil
+      it 'shipping_dayが1だと出品できない' do
+        @item.shipping_day_id = 1
         @item.valid?
-        expect(@item.errors.full_messages).to include("Shipping day can't be blank")
+        expect(@item.errors.full_messages).to include("Shipping day must be other than 1")
       end
-      it 'priceが未選択だと出品できない' do
+      it 'priceが未入力だと出品できない' do
         @item.price = nil
         @item.valid?
         expect(@item.errors.full_messages).to include("Price can't be blank")
