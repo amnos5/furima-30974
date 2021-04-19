@@ -18,9 +18,6 @@ class ItemsController < ApplicationController
       render :new
     end
 
-    def item
-    end
-
   end
 
   private
