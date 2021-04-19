@@ -3,7 +3,7 @@ class ItemsController < ApplicationController
   before_action :set_item, only: [:edit, :show, :update, :destroy]
 
   def index
-    # @item = Item.all.order('created_at DESC')
+    @item = Item.all.order("created_at DESC")
   end
 
   def new
@@ -16,6 +16,9 @@ class ItemsController < ApplicationController
       redirect_to root_path
     else
       render :new
+    end
+
+    def item
     end
 
   end
