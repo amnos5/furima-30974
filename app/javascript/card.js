@@ -3,8 +3,24 @@ const pay = () => {
   const form = document.getElementById("charge-form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log("フォーム送信時にイベント発火")
-  });
+
+    const formResult = document.getElementById("charge-form");
+    const formData = new FormData(formResult);
+
+    const card = {
+      number: formData.get("number"),
+      exp_month: formData.get("exp_month"),
+      exp_year: `20${formData.get("exp_year")}`,
+      cvc: formData.get("cvc"),
+    };
+
+    Payjp.createToken(card, (status, response) => {
+     if (status == 200) {
+      const token = response.id;
+      console.log(token)
+     }
+   });
+ });
 };
 
 window.addEventListener("load", pay);
