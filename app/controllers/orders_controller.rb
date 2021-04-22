@@ -8,6 +8,10 @@ class OrdersController < ApplicationController
       return redirect_to root_path
     end
   end
+
+  def new
+    @order = Order.new
+  end
   
   def create
     @order = UserOrder.new(order_params)
@@ -24,10 +28,17 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.permit(:item_id, :name, :price, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number).merge(user_id: current_user.id)
+    params.permit(:item_id, :name, :price, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number, :token).merge(user_id: current_user.id)
   end
 
   def pay_item
+    Payjp.api_key = ENV["sk_test_9d001258a6a2573f60051596"]
+    Payjp::Charge.create(
+      amount: @item.price,
+      card: order_params[:token],
+      currency: 'jpy'
+    )
+
   end
 
 
