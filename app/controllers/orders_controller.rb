@@ -14,9 +14,9 @@ class OrdersController < ApplicationController
   end
   
   def create
-    @order = UserOrder.new(order_params)
     @item = Item.find(params[:item_id])
-    if @order.valid?
+    @order = UserOrder.new(order_params)
+      if @order.valid?
       pay_item
       @order.save
       return redirect_to root_path
@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.permit(:item_id, :name, :price, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number, :token).merge(user_id: current_user.id)
+    params.permit(:token, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number, :item_id).merge(user_id: current_user.id, item_id:params[:item_id])
   end
 
   def pay_item
@@ -38,8 +38,5 @@ class OrdersController < ApplicationController
       card: order_params[:token],
       currency: 'jpy'
     )
-
   end
-
-
 end
