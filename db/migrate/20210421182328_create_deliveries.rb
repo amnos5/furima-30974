@@ -6,7 +6,7 @@ class CreateDeliveries < ActiveRecord::Migration[6.0]
       t.integer :prefectures,  null: false
       t.string  :city,         null: false
       t.string  :house_number, null: false
-      t.string  :build_number, null: false
+      t.string  :build_number
       t.string  :phone_number, null: false
       t.timestamps
     end
