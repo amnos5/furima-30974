@@ -8,8 +8,11 @@ class UserOrder
     validates :city
     validates :house_number
     validates :phone_number, length: { maximum: 11 }, format: { with: /\A\d{11}\z/, message: 'Contains hyphen(-)' }
-
+    validates :card_token
+    validates :user_id
+    validates :item_id
   end
+
   def save
     order = Order.create(item_id: item_id, user_id: user_id)
     Delivery.create(order_id: order.id, postal_code: postal_code, prefectures: prefectures, city: city, house_number: house_number, build_number: build_number, phone_number: phone_number)

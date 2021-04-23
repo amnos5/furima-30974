@@ -4,15 +4,14 @@ RSpec.describe UserOrder, type: :model do
   describe '商品購入機能' do
     before do
       user = FactoryBot.create(:user)
-      item = FactoryBot.build(:item, user_id: user.id)
-      item.image = fixture_file_upload('unittest/hero.jpg')
-      item.save
-      @userorder = FactoryBot.build(:user_order, user_id: user.id, item_id: item.id)
-      sleep 0.1
+   
+      @item = FactoryBot.build(:item, user_id: user.id) #要らない？
+      @item.image = fixture_file_upload('unittest/hero.jpg')
+      @item.save #saveの仕方がわからない。。
+      @userorder = FactoryBot.build(:user_order, user_id: user.id, item_id: @item)
     end
 
-    context '商品購入がうまくいくとき' do
-      it 'postal_code, prefectures, city, house_number, phone_numberが存在すれば購入できる' do
+      it 'card_token, user_id, item_id, postal_code, prefectures, city, house_number, phone_numberが存在すれば購入できる' do
         expect(@userorder).to be_valid
       end
       it 'postal_codeに-が存在すれば購入できる' do
@@ -27,12 +26,12 @@ RSpec.describe UserOrder, type: :model do
         @userorder.phone_number = 12_345_678_901
         expect(@userorder).to be_valid
       end
-      
       it 'phone_numberに-が存在しなければ購入できる' do
         @userorder.phone_number = 12_345_678_901
         expect(@userorder).to be_valid
       end
-    end
+  
+  
 
     context '商品購入がうまくいかないとき' do
       it 'postal_codeがなければ購入できない' do
@@ -46,7 +45,7 @@ RSpec.describe UserOrder, type: :model do
         expect(@userorder.errors.full_messages).to include('Postal code is invalid. Include hyphen(-)')
       end
       it 'prefecturesがなければ購入できない' do
-        @userorder.prefectures = nil
+        @userorder.prefectures = 1
         @userorder.valid?
         expect(@userorder.errors.full_messages).to include("Prefectures can't be blank")
       end
@@ -74,6 +73,21 @@ RSpec.describe UserOrder, type: :model do
         @userorder.phone_number = '123-4567-8901'
         @userorder.valid?
         expect(@userorder.errors.full_messages).to include('Phone number Contains hyphen(-)')
+      end
+      it 'card_token(クレジットカードの情報)が空では登録できない' do
+        @userorder.card_token = nil
+        @userorder.valid?
+        expect(@userorder.errors.full_messages).to include("Card token can't be blank")
+      end
+      it 'user_idが空では登録できない' do
+        @userorder.user_id = nil
+        @userorder.valid?
+        expect(@userorder.errors.full_messages).to include("User can't be blank")
+      end
+      it 'item_idが空では登録できない' do
+        @userorder.item_id = nil
+        @userorder.valid?
+        expect(@userorder.errors.full_messages).to include("Item can't be blank")
       end
     end
   end
