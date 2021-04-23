@@ -1,6 +1,6 @@
 class UserOrder
   include ActiveModel::Model
-  attr_accessor :name, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number, :price, :user_id, :token, :item_id
+  attr_accessor :name, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number, :price, :user_id, :card_token, :item_id
 
   with_options presence: true do
     validates :postal_code, format: { with: /\A[0-9]{3}-[0-9]{4}\z/, message: 'is invalid. Include hyphen(-)' }
@@ -12,6 +12,7 @@ class UserOrder
   end
   def save
     order = Order.create(item_id: item_id, user_id: user_id)
-    Delivery.create(order_id: order.id, postal_code: postal_code, prefectures: prefectures, city: city, house_number: house_number,　build_number: build_number, phone_number: phone_numbe)
+    Delivery.create(order_id: order.id, postal_code: postal_code, prefectures: prefectures, city: city, house_number: house_number,　build_number: build_number, phone_number: phone_number)
   end
 end
+
