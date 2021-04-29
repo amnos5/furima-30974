@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
   end
   
   def create
+    binding.pry
     @order = UserOrder.new(order_params)
       if @order.valid?
       pay_item
@@ -23,7 +24,8 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.permit(:card_token, :postal_code, :prefectures, :city, :house_number, :build_number, :phone_number).merge(user_id: current_user.id, item_id:params[:item_id])
+    params.require(:user_order).permit(:card_token, :postal_code, :prefectures, :city, :house_number, 
+                  :build_number, :phone_number).merge(user_id: current_user.id, item_id:params[:item_id], card_token: params[:card_token])
   end
 
   def pay_item
@@ -36,7 +38,7 @@ class OrdersController < ApplicationController
   end
 
   def set_item
-    @item = Item.find(params[:id])
+    @item = Item.find(params[:item_id])
   end
 
 end

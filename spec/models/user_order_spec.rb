@@ -4,11 +4,12 @@ RSpec.describe UserOrder, type: :model do
   describe '商品購入機能' do
     before do
       user = FactoryBot.create(:user)
-   
-      @item = FactoryBot.build(:item, user_id: user.id) #要らない？
+      buyer = FactoryBot.create(:user)
+      
+      @item = FactoryBot.build(:item, user_id: user.id) 
       @item.image = fixture_file_upload('unittest/hero.jpg')
-      @item.save #saveの仕方がわからない。。
-      @userorder = FactoryBot.build(:user_order, user_id: user.id, item_id: @item)
+      @item.save
+      @userorder = FactoryBot.build(:user_order, user_id: buyer.id, item_id: @item.id)
     end
 
       it 'card_token, user_id, item_id, postal_code, prefectures, city, house_number, phone_numberが存在すれば購入できる' do
@@ -72,7 +73,12 @@ RSpec.describe UserOrder, type: :model do
       it 'phone_numberに-が存在すると購入できない' do
         @userorder.phone_number = '123-4567-8901'
         @userorder.valid?
-        expect(@userorder.errors.full_messages).to include('Phone number Contains hyphen(-)')
+        expect(@userorder.errors.full_messages).to include('Phone number input only number')
+      end
+      it 'phone_numberが英数混合では登録できない' do
+        @userorder.phone_number = '000aaaabbbb'
+        @userorder.valid?
+        expect(@userorder.errors.full_messages).to include('Phone number input only number')
       end
       it 'card_token(クレジットカードの情報)が空では登録できない' do
         @userorder.card_token = nil
