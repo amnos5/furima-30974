@@ -3,9 +3,6 @@ class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
 
   def index
-    if @item.user_id == current_user.id || @item.order!= nil
-      return redirect_to root_path
-    end
     @order = UserOrder.new
   end
   
@@ -37,6 +34,9 @@ class OrdersController < ApplicationController
   end
 
   def set_item
+    if @item.user_id == current_user.id || @item.order!= nil
+      return redirect_to root_path
+    end
     @item = Item.find(params[:item_id])
   end
 
