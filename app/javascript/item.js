@@ -1,13 +1,23 @@
-window.addEventListener('load', () => {
-  const priceInput = document.getElementById("item-price");
-  priceInput.addEventListener("input", () => {
-    const inputValue = priceInput.value;
-  
-    const addTaxDom = document.getElementById("add-tax-price")
-    addTaxDom.innerHTML = (Math.floor(inputValue *0.1));
+function item(){
+  const price = document.getElementById("item-price")
+  const tax = document.getElementById("add-tax-price")
+  const profit = document.getElementById("profit")
 
-    const profitNumber = document.getElementById("profit")
-    const value_result = inputValue * 0.1
-    profitNumber.innerHTML = (Math.floor(inputValue - value_result));
+  price.addEventListener("keyup", function() {
+    let kakaku = price.value;
+    if ( 300 <= kakaku && kakaku <= 9999999 ){
+      let fee = Math.floor(kakaku /10);
+      let gain = (kakaku - fee);
+      tax.innerHTML = fee;
+      profit.innerHTML = gain;
+    }else{
+      let fee = '-';
+      let gain = '-';
+      tax.innerHTML = fee;
+      profit.innerHTML = gain;
+    }
   })
-})
+;}
+
+
+window.addEventListener("load", item);
